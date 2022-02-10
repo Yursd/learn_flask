@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<metat charset="utf-8">
+	<title>{{ name }}的观看列表</title>
+</head>
+<body>
+	<h1>{{ name }}的观看列表</h1>
+	{# 使用 length 过滤器获取 movies 变量的长度 #}
+	<p>{{ movies|length }}个条目</p>
+	{# ul是无序列表，li是列表的项 #}
+	<ul>
+		{% for movie in movies %}
+		<li>{{ movie.title }} - {{ movie.year }}</li>
+		{% endfor %}
+	</ul>
+	<footer>
+		{# &copy自动渲染成© #>
+		<small>&copy; 2022</small>
+	</footer>
+</body>
+</html>

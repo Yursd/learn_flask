@@ -3,13 +3,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>{{ name }}的观看列表</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
 </head>
 <body>
 	<h1>{{ name }}的观看列表</h1>
 	{# 使用 length 过滤器获取 movies 变量的长度 #}
 	<p>{{ movies|length }}个条目</p>
 	{# ul是无序列表，li是列表的项 #}
-	<ul>
+	<ul class="movie-list">
 		{% for movie in movies %}
 		<li>{{ movie.title }} - {{ movie.year }}</li>
 		{% endfor %}

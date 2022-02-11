@@ -38,6 +38,8 @@ def get_movies(): #获取TMDB本周热门信息
     url = 'https://api.themoviedb.org/3/trending/movie/day?api_key=35f8780e7b93cb270f7320f9ba7e0634&language=zh'
     content = requests.get(url).content
     movies_info = json.loads(content)
+    for movie in Movie.query.all():
+        db.session.delete(movie)
     for result in movies_info['results']:
         movie = Movie(title = result['title'], year = result['release_date'], cover = result['poster_path'], info_id = result['id'])
         db.session.add(movie)

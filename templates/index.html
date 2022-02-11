@@ -1,24 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>{{ name }}的观看列表</title>
-	{# 导入css文件 #}
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-</head>
-<body>
-	<h1>{{ name }}的观看列表</h1>
-	{# 使用 length 过滤器获取 movies 变量的长度 #}
-	<p>{{ movies|length }}个条目</p>
-	{# ul是无序列表，li是列表的项，class设置css中定义的样式 #}
-	<ul class="movie-list">
-		{% for movie in movies %}
-		<li>{{ movie.title }} - {{ movie.year }}</li>
-		{% endfor %}
-	</ul>
-	<footer>
-		{# &copy自动渲染成© #}
-		<small>&copy; 2022</small>
-	</footer>
-</body>
-</html>
+{# 继承基模板 #}
+{% extends 'base.html' %}
+
+{% block content %}
+{# 获取movies条目个数 #}
+<h2>观看列表</h2>
+<p>{{ watchs|length }}个条目</p>
+{# 表单，按下输入框不显示历史记录(autocomplete="off")，没有输入就提交则报错(required)#}
+<form method="post">
+	名称 <input type="text" name="title" autocomplete="off" required>
+	<input class="btn" type="submit" name="submit" value="添加">
+</form>
+<ul class="movie-list">
+	{% for watch in watchs %}
+	<li>{{ watch.title }}
+		<span class="float-right">
+			<a class="btn" href="{{ url_for('edit', watch_id = watch.id) }}">
+				编辑</a>
+			<form class="inline-form" method="post" action="{{ url_for('delete', watch_id = watch.id) }}">
+				<input class="btn" type="submit" name="delete" value="删除" onclick="return confirm('确定删除？')">i
+			</form>
+		</span>
+	</li>
+	{% endfor %}
+</ul>
+<h2>TMDB本周热门</h2>
+<p>{{ movies|length }}个条目</p>
+{# 使用css中定义的样式 #}
+<ul class="movie-list">
+	{% for movie in movies %}
+	<li>{{ movie.title }} - {{ movie.year }}
+		<span class="float-right">
+			<a class="tmdb" href="https://www.themoviedb.org/movie/{{ movie.info_id }}" targer="_blank" title="打开TMDB链接">TMDB</a>
+		</span>
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}

@@ -21,6 +21,11 @@
 		{# ul是无序列表，li是列表的项，class设置css中定义的样式 #}
 		<ul>
 			<li><a href="{{ url_for('index') }}">主页</a></li>
+			{% if current_user.is_authenticated %}
+			<li><a href="{{ url_for('logout') }}">登出</a></li>
+			{% else %}
+			<li><a href="{{ url_for('login') }}">登入</a></li>
+			{% endif %}
 		</ul>
 	</nav>
 	{% block content %}{% endblock %}
